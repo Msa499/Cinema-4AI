@@ -432,6 +432,12 @@
     </div>
 
     <script>
+        // بيانات المستخدمين المسجلين (بديل لقاعدة البيانات)
+        const registeredUsers = [
+            { email: "user1@example.com", password: "123456", name: "محمد أحمد", avatar: "https://i.imgur.com/JqYeZZn.png" },
+            { email: "user2@example.com", password: "123456", name: "أحمد علي", avatar: "https://i.imgur.com/XYzQq7E.png" }
+        ];
+
         // Theme Toggle
         const themeToggleLogin = document.getElementById('themeToggleLogin');
         const body = document.body;
@@ -458,9 +464,21 @@
         const loginForm = document.querySelector('.login-form');
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Here you would normally handle the login logic
-            alert('تم تسجيل الدخول بنجاح! سيتم توجيهك الآن إلى الصفحة الرئيسية.');
-            window.location.href = 'index.html';
+            const email = document.querySelector('.login-input[type="email"]').value;
+            const password = document.querySelector('.login-input[type="password"]').value;
+            
+            // التحقق من صحة البيانات
+            const user = registeredUsers.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // حفظ بيانات المستخدم في localStorage
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            } else {
+                alert('البريد الإلكتروني أو كلمة المرور غير صحيحة!');
+                // توجيه إلى صفحة third.html في حالة الخطأ
+                window.location.href = 'third.html';
+            }
         });
     </script>
 </body>
